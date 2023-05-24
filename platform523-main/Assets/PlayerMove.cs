@@ -29,13 +29,7 @@ public class PlayerMove : MonoBehaviour
         if (Input.GetButtonDown("Horizontal"))
         {
             spriteRenderer.flipX = (Input.GetAxisRaw("Horizontal")) == -1;
-        }
-
-        //점프
-        if (Input.GetButtonDown("Jump"))
-        {
-            rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
-        }
+        }        
         
         //애니메이션
         if (Mathf.Abs(rigid.velocity.x) < 0.3)
@@ -44,6 +38,13 @@ public class PlayerMove : MonoBehaviour
         } else
         {
             anim.SetBool("isWalk", true);
+        }
+
+        //점프
+        if (Input.GetButtonDown("Jump"))
+        {
+            rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+            anim.SetBool("isJump", true);
         }
     }
 
@@ -63,5 +64,23 @@ public class PlayerMove : MonoBehaviour
             rigid.velocity = new Vector2(maxSpeed * (-1), rigid.velocity.y);
 
         }
+        if(rigid.velocity.y < 0)
+        {
+            // 레이 캐스트   시작위치        방향       색(초록)   R,G,B
+            Debug.DrawRay(rigid.position, Vector3.down, new Color(0, 1, 0));
+
+            RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, Vector3.down, 1, LayerMask.GetMask("platform"));
+
+            //빔에 맞았는지
+            if (rayHit.collider != null)
+            {   //플레이어의 절반크기 만큼이여야 바닥에 닿은 것
+                if (rayHit.distance < 0.5f)
+                {
+                    anim.SetBool("isJump", false);
+                    Debug.Log(rayHit.collider.name);
+                }
+            }
+        }
+        
     }
 }
