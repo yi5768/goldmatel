@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+    public GameManager gameManager;
     Rigidbody2D rigid;
     public float maxSpeed;
     public float jumpPower;
@@ -84,6 +85,38 @@ public class PlayerMove : MonoBehaviour
         
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "Item")
+        {
+            //점수 얻기
+            bool isBronze = collision.gameObject.name.Contains("Bronze");
+            bool isSilver = collision.gameObject.name.Contains("Silver");
+            bool isGold = collision.gameObject.name.Contains("Gold");
+            if (isBronze)
+            {
+                gameManager.stagePoint += 50;
+            }
+            else if (isSilver)
+            {
+                gameManager.stagePoint += 100;
+            }
+            else if (isGold)
+            {
+                gameManager.stagePoint += 300;
+            }
+
+            //아이템 비활성화
+            collision.gameObject.SetActive(false);
+        }
+        else if(collision.gameObject.tag == "Finish")
+        {
+            //다음 스테이지 이동
+            gameManager.NextStage();
+
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.tag == "Enemy")
@@ -110,7 +143,8 @@ public class PlayerMove : MonoBehaviour
     }
 
     void OnDamaged(Vector2 targetPos)
-    {
+    {   //health down
+        gameManager.health--;   //몬스터와 만났을 때 체력 깍기
         gameObject.layer = 11;
         spriteRenderer.color = new Color(1, 1, 1, 0.4f);
 
