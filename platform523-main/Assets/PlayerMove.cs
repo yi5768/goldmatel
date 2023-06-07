@@ -10,6 +10,7 @@ public class PlayerMove : MonoBehaviour
     public float jumpPower;
     SpriteRenderer spriteRenderer;
     Animator anim;
+    CapsuleCollider2D capsuleCollider;
 
     private void Awake()
     {
@@ -17,6 +18,7 @@ public class PlayerMove : MonoBehaviour
         rigid.freezeRotation = true;
         spriteRenderer = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        capsuleCollider = GetComponent<CapsuleCollider2D>();
     }
     //즉각적인 키 입력, 키보드에 손을 뗐을때
     private void Update()
@@ -144,7 +146,7 @@ public class PlayerMove : MonoBehaviour
 
     void OnDamaged(Vector2 targetPos)
     {   //health down
-        gameManager.health--;   //몬스터와 만났을 때 체력 깍기
+        gameManager.HealthDown();   //몬스터와 만났을 때 체력 깍기
         gameObject.layer = 11;
         spriteRenderer.color = new Color(1, 1, 1, 0.4f);
 
@@ -157,5 +159,22 @@ public class PlayerMove : MonoBehaviour
     {
         gameObject.layer = 10;
         spriteRenderer.color = new Color(1, 1, 1, 1);
+    }
+
+    public void OnDie()
+    {
+        //스프라이트 알파값
+        spriteRenderer.color = new Color(1, 1, 1, 0.4f);
+        //스프라이트 반전 Flip
+        spriteRenderer.flipX = true;
+        //콜라이더 disable
+        capsuleCollider.enabled = false;   //비활성화
+        //die effect jump
+        rigid.AddForce(Vector2.up * 5, ForceMode2D.Impulse);
+    }
+
+    public void velocityZero()
+    {
+        rigid.velocity = Vector2.zero;
     }
 }
