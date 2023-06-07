@@ -1150,7 +1150,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6, y: 1}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!212 &483516067
 SpriteRenderer:
@@ -1261,7 +1261,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6, y: 1}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!212 &488903222
 SpriteRenderer:
@@ -2347,7 +2347,10 @@ MonoBehaviour:
   stageIndex: 0
   health: 3
   player: {fileID: 513759112}
-  Stages: []
+  Stages:
+  - {fileID: 1301131889}
+  - {fileID: 1862046142}
+  - {fileID: 581425605}
 --- !u!4 &924680008
 Transform:
   m_ObjectHideFlags: 0
@@ -3442,7 +3445,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6, y: 1}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!1 &1753493219
 GameObject:
